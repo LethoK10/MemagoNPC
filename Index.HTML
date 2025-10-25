@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memago NPC - Empowering Communities</title>
+
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  :root {
+    --green: #057a55;
+    --green-dark: #035437;
+    --green-bright: #00c894;
+    --black: #000000;
+    --white: #ffffff;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom right, var(--green-dark), var(--black));
+    color: var(--white);
+    scroll-behavior: smooth;
+  }
+
+  header {
+    text-align: center;
+    padding: 2rem 1rem;
+    position: relative;
+    z-index: 10;
+  }
+
+  nav {
+    text-align: center;
+    margin-top: 1rem;
+    position: relative;
+    z-index: 10;
+  }
+  nav a {
+    margin: 0 1rem;
+    font-weight: bold;
+    color: var(--white);
+    text-decoration: none;
+    transition: color 0.3s, transform 0.2s;
+  }
+  nav a:hover { color: var(--green-bright); transform: scale(1.05); }
+
+  .hero {
+    text-align: center;
+    padding: 6rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero h1 { font-size: 3rem; font-weight: bold; animation: fadeInDown 1s ease forwards; }
+  .hero p { margin-top: 1rem; font-size: 1.25rem; animation: fadeInUp 1s ease forwards; animation-delay: 0.5s; }
+
+  .hero::before,
+  .hero::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.4;
+    z-index: 1;
+  }
+  .hero::before {
+    width: 400px; height: 400px;
+    background: var(--green-bright);
+    top: -100px; left: -100px;
+    animation: floatShape 6s ease-in-out infinite alternate;
+  }
+  .hero::after {
+    width: 300px; height: 300px;
+    background: var(--green);
+    bottom: -80px; right: -80px;
+    animation: floatShape 5s ease-in-out infinite alternate-reverse;
+  }
+  @keyframes floatShape {
+    0% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(15deg); }
+    100% { transform: translateY(0) rotate(0deg); }
+  }
+
+  .content {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--white);
+    color: var(--black);
+    border-radius: 1rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .content.visible { opacity: 1; transform: translateY(0); }
+  .content h2, .content h3 { color: var(--green); }
+
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .image-card {
+    background: var(--white);
+    border-radius: 0.8rem;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+  }
+  .image-card:hover { transform: scale(1.03); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+  .image-card img { width: 100%; height: 200px; object-fit: cover; }
+  .image-card p { padding: 1rem; text-align: center; font-weight: bold; color: var(--green); }
+  .service-icon { position: absolute; top: 10px; right: 10px; font-size: 2rem; opacity: 0.9; pointer-events: none; transition: transform 0.3s, opacity 0.3s; }
+  .image-card:hover .service-icon { transform: translateY(-10px) scale(1.2); opacity: 1; }
+  @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  .animate-bounce { animation: bounce 2s infinite; }
+
+  .cta {
+    text-align: center;
+    padding: 3rem 2rem;
+    margin: 3rem auto;
+    max-width: 1000px;
+    background: linear-gradient(135deg, var(--green), var(--black));
+    color: var(--white);
+    border-radius: 1rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    transition: transform 0.3s;
+  }
+  .cta:hover { transform: translateY(-5px); }
+  .cta h2 { font-size: 2rem; margin-bottom: 1rem; }
+  .cta a.cta-btn {
+    display: inline-block;
+    margin-top: 1.5rem;
+    background-color: var(--green-bright);
+    color: var(--black);
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .cta a.cta-btn:hover { background-color: var(--white); transform: scale(1.05); }
+
+  footer {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    background-color: var(--green-dark);
+    color: var(--white);
+    margin-top: 2rem;
+  }
+
+  .logo-img { display: block; margin: 1rem auto 0 auto; width: 150px; height: auto; border-radius: 0.5rem; }
+
+  @keyframes fadeInDown { from { opacity:0; transform:translateY(-30px);} to {opacity:1; transform:translateY(0);} }
+  @keyframes fadeInUp { from { opacity:0; transform:translateY(30px);} to {opacity:1; transform:translateY(0);} }
+
+  #backToTop {
+    position: fixed; bottom: 30px; right: 30px;
+    background: var(--green-bright); color: var(--black);
+    padding: 0.7rem 1rem; border-radius: 50px; cursor: pointer;
+    display: none; font-weight: bold; z-index: 100; transition: transform 0.2s;
+  }
+  #backToTop:hover { transform: scale(1.1); }
+</style>
+</head>
+<body>
+
+<script>
+  alert("Welcome to Memago NPC! Explore how we empower communities through skills in building, plumbing, and farming.");
+</script>
+
+<header>
+  <h1 class="text-4xl font-bold">Welcome to Memago NPC</h1>
+  <p class="mt-2 text-lg">Empowering Communities Through Practical Skills</p>
+  <img src="Media/MMG Logo.jpg" alt="Memago NPC Logo" class="logo-img">
+</header>
+
+<nav>
+  <a href="Index.HTML">Home</a>
+  <a href="About.HTML">About</a>
+  <a href="Services.HTML">Services</a>
+  <a href="ContactUs.HTML">Contact Us</a>
+</nav>
+
+<section class="hero">
+  <h1 class="text-5xl font-bold">Building, Plumbing & Farming for Stronger Communities</h1>
+  <p class="mt-4 text-xl">Join Memago NPC in creating sustainable livelihoods and community development.</p>
+</section>
+
+<section class="content">
+  <h2 class="text-3xl font-bold mb-4">Our Mission & Vision</h2>
+  <p>Memago NPC empowers communities with skills in building, plumbing, and farming to improve livelihoods and create sustainable impact.</p>
+  <h3 class="text-2xl font-semibold mt-6 mb-2">Vision</h3>
+  <ul style="list-style-type: disc; padding-left: 1.5rem;">
+    <li>Ensure communities have access to food and clean water.</li>
+    <li>Provide practical skills for youth and adults to generate income.</li>
+    <li>Strengthen local development through construction projects.</li>
+  </ul>
+  <h3 class="text-2xl font-semibold mt-6 mb-2">Values</h3>
+  <ul style="list-style-type: disc; padding-left: 1.5rem;">
+    <li>Integrity</li>
+    <li>Innovation</li>
+    <li>Community Focus</li>
+    <li>Sustainability</li>
+    <li>Education & Empowerment</li>
+  </ul>
+</section>
+
+<section class="content">
+  <h2 class="text-3xl font-bold mb-4">What We Do</h2>
+  <div class="image-grid">
+    <div class="image-card">
+      <img src="Media/MMG Building.JPG" alt="Construction Training">
+      <p>Building & Construction Projects</p>
+      <div class="service-icon animate-bounce" title="Construction">🏗️</div>
+    </div>
+    <div class="image-card">
+      <img src="Media/Farming MMG.JPG" alt="Farming">
+      <p>Modern Sustainable Farming</p>
+      <div class="service-icon animate-bounce" title="Farming">🌱</div>
+    </div>
+    <div class="image-card">
+      <img src="Media/MMG Construction:Plumbing.JPG" alt="Plumbing">
+      <p>Plumbing Skills & Water Solutions</p>
+      <div class="service-icon animate-bounce" title="Plumbing">🔧</div>
+    </div>
+  </div>
+  <p style="margin-top:1.5rem;">
+    Hands-on training enables community members to earn a livelihood, support schools, and improve local infrastructure. Your support expands these programs and reaches more people in need.
+  </p>
+</section>
+
+<section class="cta">
+  <h2>Support Memago NPC</h2>
+  <p>Your donations and involvement help train more people, improve community infrastructure, and create sustainable impact. Together, we can transform lives.</p>
+  <a href="ContactUs.HTML" class="cta-btn">Donate & Get Involved</a>
+</section>
+
+<footer>
+  <p>&copy; 2025 Memago NPC. All rights reserved. | <strong>NPC Non-Profit Organization</strong></p>
+</footer>
+
+<div id="backToTop">↑ Top</div>
+
+<script>
+  const contents = document.querySelectorAll('.content');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('visible'); });
+  }, { threshold: 0.2 });
+  contents.forEach(content => observer.observe(content));
+
+  const backToTop = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    backToTop.style.display = (window.scrollY > 300) ? 'block' : 'none';
+  });
+  backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+</script>
+
+</body>
+</html>
